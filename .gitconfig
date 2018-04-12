@@ -1,0 +1,20 @@
+[user]
+	email = jscho13@gmail.com
+	name = Joseph Cho
+[core]
+	editor = nano
+	editor = atom
+	editor = atom --wait
+	editor = vim
+[push]
+	default = simple
+[alias] 
+	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+	co = checkout
+	b = branch
+	c = commit
+	s = status
+	r = reset
+[commit]
+  template = ~/.gitmessage
+
