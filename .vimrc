@@ -16,6 +16,7 @@ set runtimepath^=~/.vim/bundle/ctrlp.vim
 set splitright
 set tabstop=2 shiftwidth=2 expandtab
 set relativenumber
+set paste
 let g:netrw_liststyle = 3
 
 nnoremap ; :
