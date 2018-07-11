@@ -1,23 +1,34 @@
 
-execute pathogen#infect()
-
 call plug#begin()
 Plug 'elmcast/elm-vim'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'joshdick/onedark.vim'
+Plug 'itchyny/lightline.vim'
 call plug#end()
 
-" line 100 starts unfamiliar vimrc commands
-color desert
+" Plugin specific settings
+let g:netrw_liststyle = 3
+let g:elm_format_autosave = 1
+set laststatus=2
 colorscheme onedark
+
+" iTerm2 scroll wheel
+set mouse=a
+if has("mouse_sgr")
+  set ttymouse=sgr
+else
+  set ttymouse=xterm2
+end
+
+
+" line 100 starts unfamiliar vimrc commands
 set nu
 set hlsearch
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 set splitright
 set tabstop=2 shiftwidth=2 expandtab
-set relativenumber
 set paste
-let g:netrw_liststyle = 3
 
 nnoremap ; :
 nnoremap <c-s> :w<CR>
