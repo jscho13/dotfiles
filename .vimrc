@@ -1,33 +1,31 @@
-
 call plug#begin()
 Plug 'elmcast/elm-vim'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'joshdick/onedark.vim'
+" Plug 'joshdick/onedark.vim'
 Plug 'itchyny/lightline.vim'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-surround'
+Plug 'mileszs/ack.vim'
+Plug 'tpope/vim-abolish'
 call plug#end()
 
 " Plugin specific settings
 let g:netrw_liststyle = 3
 let g:elm_format_autosave = 1
+let g:multi_cursor_exit_from_visual_mode = 0
+let g:multi_cursor_exit_from_insert_mode = 0
+let g:ackprg = 'ag --vimgrep'
 set laststatus=2
-colorscheme onedark
+" colorscheme onedark
+color desert
 
-" iTerm2 scroll wheel
-set mouse=a
-if has("mouse_sgr")
-  set ttymouse=sgr
-else
-  set ttymouse=xterm2
-end
-
-
-" line 100 starts unfamiliar vimrc commands
 set nu
 set hlsearch
-set runtimepath^=~/.vim/bundle/ctrlp.vim
 set splitright
-set tabstop=2 shiftwidth=2 expandtab
+set tabstop=2
+set shiftwidth=2
+set expandtab
 set paste
 
 nnoremap ; :
@@ -35,8 +33,6 @@ nnoremap <c-s> :w<CR>
 inoremap <c-s> <Esc>:w<CR>l
 vnoremap <c-s> <Esc>:w<CR>
 
-" Replace word with whatevers in the buffer
-nmap <C-j> cw<C-r>0<ESC>
 " draws a line of # 
 nmap ,# 72i#<ESC>
 " draws a line of dashes
@@ -52,7 +48,7 @@ noremap <C-\> :NERDTree<CR>
 noremap ,< :vertical resize -20<cr>
 noremap ,> :vertical resize +20<cr>
 " Tab hotkeys
-nnoremap tn :tabe %<CR>
+nnoremap gn :tabe<CR>
 " Home-brewed commenter and uncommenter
 " :Comment and :Uncomment will comment out a given range of lines 
 " or visual selection. 
@@ -110,27 +106,28 @@ if (empty($TMUX))
   endif
 endif
 
+function! MarkWindowSwap()
+  let g:markedWinNum = winnr()
+endfunction
 
+function! DoWindowSwap()
+  "Mark destination
+  let curNum = winnr()
+  let curBuf = bufnr( "%" )
+  exe g:markedWinNum . "wincmd w"
+  "Switch to source and shuffle dest->source
+  let markedBuf = bufnr( "%" )
+  "Hide and open so that we aren't prompted and keep history
+  exe 'hide buf' curBuf
+  "Switch to dest and shuffle source->dest
+  exe curNum . "wincmd w"
+  "Hide and open so that we aren't prompted and keep history
+  exe 'hide buf' markedBuf
+endfunction
 
-
-
-
-
-let g:mapleader=','
-set ai et ts=2 sw=2 tw=0 exrc nocursorline hls 
-
-autocmd BufNewFile,BufRead *.txt setlocal tw=72 hls
-autocmd BufNewFile,BufRead TODO setlocal tw=72 hls
-autocmd BufNewFile,BufRead *.md  set ft=txt 
-autocmd BufNewFile,BufRead README setlocal tw=72 hls
-autocmd BufNewFile,BufRead notepad*.txt setlocal tw=72 hls
-autocmd BufNewFile,BufRead *.lhs set fo=tcqro
-autocmd BufNewFile,BufRead *.rb set ft=ruby
-autocmd BufNewFile,BufRead *.swift  set ts=4 sw=2
-
-" Use gmake
-" autocmd BufNewFile,BufRead Makefile*  set noet
-
+"1. go to first window 2. ,mw to mark window 3. go to desired window 4. ,sm to swap window
+nmap ,mw :call MarkWindowSwap()<CR>
+nmap ,sw :call DoWindowSwap()<CR>
 
 " Easily open hyperlinks in the current text buffer.
 " Place cursor before or at the beginning of a URL that
@@ -152,13 +149,42 @@ endfunc
 func! s:open_href_under_cursor()
   call system(Open_href_cmd())
 endfunc
+
+nnoremap <leader>o :call <SID>open_href_under_cursor()<CR>
+
+
+
+
+
+
+
+
+
+
+
+
 func! s:open_href_under_cursor_in_buffer()
   let command = "elinks -dump -no-numbering -no-references '" . shellescape(Find_href()) . "' > elinks.buffer "
   call system(command)
   sp elinks.buffer
 endfunc
-nnoremap <leader>o :call <SID>open_href_under_cursor()<CR>
+
 nnoremap <leader>O :call <SID>open_href_under_cursor_in_buffer()<CR>
+
+set ai et ts=2 sw=2 tw=0 exrc nocursorline hls 
+
+autocmd BufNewFile,BufRead *.txt setlocal tw=72 hls
+autocmd BufNewFile,BufRead TODO setlocal tw=72 hls
+autocmd BufNewFile,BufRead *.md  set ft=txt 
+autocmd BufNewFile,BufRead README setlocal tw=72 hls
+autocmd BufNewFile,BufRead notepad*.txt setlocal tw=72 hls
+autocmd BufNewFile,BufRead *.lhs set fo=tcqro
+autocmd BufNewFile,BufRead *.rb set ft=ruby
+autocmd BufNewFile,BufRead *.swift  set ts=4 sw=2
+
+" Use gmake
+" autocmd BufNewFile,BufRead Makefile*  set noet
+
 
 " runs the line in Bash and appends output after the line
 func! RunBashAppend()
@@ -172,3 +198,4 @@ nnoremap <leader>b :call RunBashAppend()<CR>
 " prevent mistyped :w;
 :cabbr w; w
 
+map <Leader>p :set paste<CR>o<esc>"*]p:set nopaste<cr>
