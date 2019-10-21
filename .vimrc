@@ -1,8 +1,6 @@
 call plug#begin()
-Plug 'elmcast/elm-vim'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-" Plug 'joshdick/onedark.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-surround'
@@ -12,12 +10,10 @@ call plug#end()
 
 " Plugin specific settings
 let g:netrw_liststyle = 3
-let g:elm_format_autosave = 1
 let g:multi_cursor_exit_from_visual_mode = 0
 let g:multi_cursor_exit_from_insert_mode = 0
 let g:ackprg = 'ag --vimgrep'
 set laststatus=2
-" colorscheme onedark
 color desert
 
 set nu
@@ -27,6 +23,7 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 set paste
+set clipboard=unnamed
 
 nnoremap ; :
 nnoremap <c-s> :w<CR>
