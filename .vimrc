@@ -14,7 +14,6 @@ let g:multi_cursor_exit_from_visual_mode = 0
 let g:multi_cursor_exit_from_insert_mode = 0
 let g:ackprg = 'ag --vimgrep'
 set laststatus=2
-color desert
 
 set nu
 set hlsearch
@@ -24,6 +23,7 @@ set shiftwidth=2
 set expandtab
 set paste
 set clipboard=unnamed
+color desert
 
 nnoremap ; :
 nnoremap <c-s> :w<CR>
