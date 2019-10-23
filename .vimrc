@@ -6,6 +6,8 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-surround'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-abolish'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 " Plugin specific settings
@@ -15,6 +17,13 @@ let g:multi_cursor_exit_from_insert_mode = 0
 let g:ackprg = 'ag --vimgrep'
 set laststatus=2
 
+nmap <Leader>F :GFiles<CR>
+nmap <Leader>f :Files<CR>
+nmap <Leader>b :Buffers<CR>
+nmap <Leader>h :History<CR>
+
+
+" Vim specific settings
 set nu
 set hlsearch
 set splitright
@@ -24,6 +33,7 @@ set expandtab
 set paste
 set clipboard=unnamed
 color desert
+
 
 nnoremap ; :
 nnoremap <c-s> :w<CR>
@@ -38,7 +48,7 @@ nmap ,- 72i-<ESC>
 nmap ,_ :silent r !date +\%F<CR>
 " buffers to open for notetaking
 nnoremap ,1 :vsplit ~/Dropbox/work_notes.txt<CR>
-nnoremap ,2 :vsplit ~/Dropbox/personal_notes.txt<CR>
+nnoremap ,2 :vsplit ~/Dropbox/goals.txt<CR>
 " Open the nerdtree
 noremap <C-\> :NERDTree<CR>
 " Resize windows

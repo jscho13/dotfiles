@@ -1,0 +1,7 @@
+1. Vim with +clipboard
+2. PlugInstall
+3. ag
+4. iterm 2 - terminal emulator
+5. zsh shell - a shell thats better than bash
+6. ag = text searcher
+7. <leader>f = fuzzy finder
