@@ -8,6 +8,7 @@ Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-abolish'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 call plug#end()
 
 " Plugin specific settings
@@ -17,11 +18,11 @@ let g:multi_cursor_exit_from_insert_mode = 0
 let g:ackprg = 'ag --vimgrep'
 set laststatus=2
 
+" FZF Settings
 nmap <Leader>F :GFiles<CR>
 nmap <Leader>f :Files<CR>
 nmap <Leader>b :Buffers<CR>
 nmap <Leader>h :History<CR>
-
 
 " Vim specific settings
 set nu
@@ -47,15 +48,14 @@ nmap ,- 72i-<ESC>
 " inserts the date
 nmap ,_ :silent r !date +\%F<CR>
 " buffers to open for notetaking
-nnoremap ,1 :vsplit ~/Dropbox/work_notes.txt<CR>
-nnoremap ,2 :vsplit ~/Dropbox/goals.txt<CR>
+nnoremap ,1 :vsplit ~/Dropbox/work.txt<CR>
+nnoremap ,2 :vsplit ~/Dropbox/personal.txt<CR>
 " Open the nerdtree
-noremap <C-\> :NERDTree<CR>
+noremap <Leader>t :NERDTree<CR>
 " Resize windows
 noremap ,< :vertical resize -20<cr>
 noremap ,> :vertical resize +20<cr>
-" Tab hotkeys
-nnoremap gn :tabe<CR>
+
 " Home-brewed commenter and uncommenter
 " :Comment and :Uncomment will comment out a given range of lines 
 " or visual selection. 
