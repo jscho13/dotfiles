@@ -1,30 +1,43 @@
 call plug#begin()
-Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'itchyny/lightline.vim'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'tpope/vim-surround'
-Plug 'mileszs/ack.vim'
-Plug 'tpope/vim-abolish'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+Plug 'itchyny/lightline.vim'
+Plug 'jlanzarotta/bufexplorer'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'justinmk/vim-sneak'
+Plug 'leafgarland/typescript-vim'
+Plug 'mileszs/ack.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'scrooloose/nerdtree'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-surround'
 call plug#end()
 
+" <Leader>bv => vertical split buffer
 " Plugin specific settings
 let g:netrw_liststyle = 3
 let g:multi_cursor_exit_from_visual_mode = 0
 let g:multi_cursor_exit_from_insert_mode = 0
 let g:ackprg = 'ag --vimgrep'
+let NERDTreeShowHidden=1
 set laststatus=2
+" f{char}{char} e.g. frg => same as /rg. except sneak can hop vertical lines
+map f <Plug>Sneak_s
+map F <Plug>Sneak_S
+let g:sneak#s_next = 1
+map n <Plug>Sneak_;
+
 
 " FZF Settings
-nmap <Leader>F :GFiles<CR>
-nmap <Leader>f :Files<CR>
-nmap <Leader>b :Buffers<CR>
-nmap <Leader>h :History<CR>
+let $FZF_DEFAULT_COMMAND = 'ag --ignore-dir={node_modules,bin,tsBin} -g ""'
+nmap <Leader>f :FZF<CR>
 
 " Vim specific settings
+set belloff=all
 set nu
 set hlsearch
 set splitright
@@ -33,28 +46,33 @@ set shiftwidth=2
 set expandtab
 set paste
 set clipboard=unnamed
-color desert
-
+" color desert
+" colorscheme dracula
 
 nnoremap ; :
-nnoremap <c-s> :w<CR>
-inoremap <c-s> <Esc>:w<CR>l
-vnoremap <c-s> <Esc>:w<CR>
+" nnoremap <c-s> :w<CR>
+" inoremap <c-s> <Esc>:w<CR>l
+" vnoremap <c-s> <Esc>:w<CR>
 
 " draws a line of # 
 nmap ,# 72i#<ESC>
-" draws a line of dashes
-nmap ,- 72i-<ESC>
 " inserts the date
 nmap ,_ :silent r !date +\%F<CR>
 " buffers to open for notetaking
-nnoremap ,1 :vsplit ~/Dropbox/work.txt<CR>
-nnoremap ,2 :vsplit ~/Dropbox/personal.txt<CR>
+nnoremap <Leader>1 :e ~/Dropbox/notes.txt<CR>
 " Open the nerdtree
 noremap <Leader>t :NERDTree<CR>
 " Resize windows
 noremap ,< :vertical resize -20<cr>
 noremap ,> :vertical resize +20<cr>
+
+
+" zo => open fold
+" zc => close fold
+set foldmethod=syntax "syntax highlighting items specify folds
+set foldcolumn=1 "defines 1 col at window left, to indicate folding
+let javaScript_fold=1 "activate folding by JS syntax
+set foldlevelstart=99 "start file with all folds opened
 
 " Home-brewed commenter and uncommenter
 " :Comment and :Uncomment will comment out a given range of lines 
@@ -66,7 +84,7 @@ noremap ,> :vertical resize +20<cr>
 
 func! CommentMarker() 
   let ext = expand('%:e')
-  if ext == 'js' || ext == 'scss'
+  if ext == 'js' || ext == 'scss' || ext == 'tsx' || ext == 'rs' || ext == 'ts'
     return '//'
   elseif ext == 'hs' || ext == 'elm' || ext == 'cabal' 
     return '--'
@@ -94,6 +112,8 @@ func! Uncomment() range
     let lnum += 1
   endwhile
 endfunc
+command! -bar -range C :<line1>,<line2>call Comment()
+command! -bar -range U :<line1>,<line2>call Uncomment()
 command! -bar -range Comment :<line1>,<line2>call Comment()
 command! -bar -range Uncomment :<line1>,<line2>call Uncomment()
 
@@ -158,16 +178,6 @@ func! s:open_href_under_cursor()
 endfunc
 
 nnoremap <leader>o :call <SID>open_href_under_cursor()<CR>
-
-
-
-
-
-
-
-
-
-
 
 
 func! s:open_href_under_cursor_in_buffer()

@@ -3,6 +3,5 @@
 3. iterm 2 - terminal emulator
 4. zsh shell - a shell thats better than bash
 5. ag = text searcher
-6. <leader>f = fuzzy finder
-7. download BetterSnapTool
-8. download dropbox
+6. BetterSnapTool
+7. dropbox
