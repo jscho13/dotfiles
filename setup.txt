@@ -1,7 +1,7 @@
-1. Vim with +clipboard
-2. PlugInstall
-3. iterm 2 - terminal emulator
-4. zsh shell - a shell thats better than bash
-5. ag = text searcher
-6. BetterSnapTool
-7. dropbox
+Vim with +clipboard
+PlugInstall
+iterm 2 - terminal emulator
+oh my zsh
+ag = text searcher
+BetterSnapTool
+dropbox

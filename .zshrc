@@ -3,7 +3,7 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$PATH:/usr/local/Cellar/node/12.12.0/bin
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/josephcho/.oh-my-zsh"
+export ZSH="/Users/bcjoseph/.oh-my-zsh"
 
 # Make Vi mode transitions faster (KEYTIMEOUT is in hundredths of a second)
 export KEYTIMEOUT=1
@@ -89,7 +89,7 @@ source $ZSH/oh-my-zsh.sh
 # else
 #   export EDITOR='mvim'
 # fi
-alias vi='/Applications/MacVim.app/Contents/MacOS/Vim'
+# alias vi='/Applications/MacVim.app/Contents/MacOS/Vim'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
