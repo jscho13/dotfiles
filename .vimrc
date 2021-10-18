@@ -1,3 +1,9 @@
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 call plug#begin()
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'dracula/vim', { 'as': 'dracula' }
@@ -6,7 +12,6 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'itchyny/lightline.vim'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'justinmk/vim-sneak'
 Plug 'leafgarland/typescript-vim'
 Plug 'mileszs/ack.vim'
 Plug 'pangloss/vim-javascript'
@@ -15,6 +20,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
 call plug#end()
 
 " <Leader>bv => vertical split buffer
@@ -25,15 +31,9 @@ let g:multi_cursor_exit_from_insert_mode = 0
 let g:ackprg = 'ag --vimgrep'
 let NERDTreeShowHidden=1
 set laststatus=2
-" f{char}{char} e.g. frg => same as /rg. except sneak can hop vertical lines
-map f <Plug>Sneak_s
-map F <Plug>Sneak_S
-let g:sneak#s_next = 1
-map n <Plug>Sneak_;
-
 
 " FZF Settings
-let $FZF_DEFAULT_COMMAND = 'ag --ignore-dir={node_modules,bin,tsBin} -g ""'
+let $FZF_DEFAULT_COMMAND = 'ag --ignore-dir={dist,node_modules,bin,tsBin} -g ""'
 nmap <Leader>f :FZF<CR>
 
 " Vim specific settings
@@ -46,7 +46,7 @@ set shiftwidth=2
 set expandtab
 set paste
 set clipboard=unnamed
-" color desert
+color desert
 " colorscheme dracula
 
 nnoremap ; :
@@ -54,7 +54,7 @@ nnoremap ; :
 " inoremap <c-s> <Esc>:w<CR>l
 " vnoremap <c-s> <Esc>:w<CR>
 
-" draws a line of # 
+" draws a line of #
 nmap ,# 72i#<ESC>
 " inserts the date
 nmap ,_ :silent r !date +\%F<CR>
@@ -69,24 +69,24 @@ noremap ,> :vertical resize +20<cr>
 
 " zo => open fold
 " zc => close fold
-set foldmethod=syntax "syntax highlighting items specify folds
-set foldcolumn=1 "defines 1 col at window left, to indicate folding
-let javaScript_fold=1 "activate folding by JS syntax
-set foldlevelstart=99 "start file with all folds opened
+" set foldmethod=syntax "syntax highlighting items specify folds
+" set foldcolumn=1 "defines 1 col at window left, to indicate folding
+" let javaScript_fold=1 "activate folding by JS syntax
+" set foldlevelstart=99 "start file with all folds opened
 
 " Home-brewed commenter and uncommenter
-" :Comment and :Uncomment will comment out a given range of lines 
-" or visual selection. 
+" :Comment and :Uncomment will comment out a given range of lines
+" or visual selection.
 " Comment marks will be placed at beginning of line, and only comment
 " marks at the beginning of lines will be uncommented.
 " Comment mark will dynamically determined to be '#', '//' or '--' depending
 " on file extension of the file in buffer, and '#' if none can be detected.
 
-func! CommentMarker() 
+func! CommentMarker()
   let ext = expand('%:e')
   if ext == 'js' || ext == 'scss' || ext == 'tsx' || ext == 'rs' || ext == 'ts'
     return '//'
-  elseif ext == 'hs' || ext == 'elm' || ext == 'cabal' 
+  elseif ext == 'hs' || ext == 'elm' || ext == 'cabal'
     return '--'
   elseif ext == 'html'
     return '<!-- '
@@ -179,7 +179,6 @@ endfunc
 
 nnoremap <leader>o :call <SID>open_href_under_cursor()<CR>
 
-
 func! s:open_href_under_cursor_in_buffer()
   let command = "elinks -dump -no-numbering -no-references '" . shellescape(Find_href()) . "' > elinks.buffer "
   call system(command)
@@ -188,11 +187,11 @@ endfunc
 
 nnoremap <leader>O :call <SID>open_href_under_cursor_in_buffer()<CR>
 
-set ai et ts=2 sw=2 tw=0 exrc nocursorline hls 
+set ai et ts=2 sw=2 tw=0 exrc nocursorline hls
 
 autocmd BufNewFile,BufRead *.txt setlocal tw=72 hls
 autocmd BufNewFile,BufRead TODO setlocal tw=72 hls
-autocmd BufNewFile,BufRead *.md  set ft=txt 
+autocmd BufNewFile,BufRead *.md  set ft=txt
 autocmd BufNewFile,BufRead README setlocal tw=72 hls
 autocmd BufNewFile,BufRead notepad*.txt setlocal tw=72 hls
 autocmd BufNewFile,BufRead *.lhs set fo=tcqro
