@@ -12,18 +12,32 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'itchyny/lightline.vim'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'leafgarland/typescript-vim'
 Plug 'mileszs/ack.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'peitalin/vim-jsx-typescript'
+Plug 'leafgarland/typescript-vim'
 Plug 'scrooloose/nerdtree'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-abolish' " case tricks
+Plug 'tpope/vim-surround' " parenthesis, quote, bracket tricks
+Plug 'tpope/vim-fugitive' " git integration
+Plug 'Quramy/tsuquyomi' " ts integration
+Plug 'justinmk/vim-sneak'
 call plug#end()
 
-" <Leader>bv => vertical split buffer
+" tsuquyomi settings
+let g:tsuquyomi_disable_default_mappings = 1
+let g:tsuquyomi_disable_quickfix = 1
+let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
+nmap ]t :TsuquyomiDefinition<CR>
+nmap ]b :TsuGeterr<CR>
+nmap <Leader>s :Ack! -i -w <cword><CR>
+
+" FZF Settings
+let g:fzf_layout = { 'down':  '40%'}
+let $FZF_DEFAULT_COMMAND = 'ag --ignore-dir={dist,node_modules,bin,tsBin} -g ""'
+nmap <Leader>f :FZF<CR>
+
 " Plugin specific settings
 let g:netrw_liststyle = 3
 let g:multi_cursor_exit_from_visual_mode = 0
@@ -31,12 +45,10 @@ let g:multi_cursor_exit_from_insert_mode = 0
 let g:ackprg = 'ag --vimgrep'
 let NERDTreeShowHidden=1
 set laststatus=2
-
-" FZF Settings
-let $FZF_DEFAULT_COMMAND = 'ag --ignore-dir={dist,node_modules,bin,tsBin} -g ""'
-nmap <Leader>f :FZF<CR>
+let g:sneak#s_next = 1
 
 " Vim specific settings
+nnoremap ; :
 set belloff=all
 set nu
 set hlsearch
@@ -44,15 +56,10 @@ set splitright
 set tabstop=2
 set shiftwidth=2
 set expandtab
-set paste
+set nopaste
 set clipboard=unnamed
-color desert
-" colorscheme dracula
-
-nnoremap ; :
-" nnoremap <c-s> :w<CR>
-" inoremap <c-s> <Esc>:w<CR>l
-" vnoremap <c-s> <Esc>:w<CR>
+" color desert
+colorscheme dracula
 
 " draws a line of #
 nmap ,# 72i#<ESC>
@@ -197,6 +204,7 @@ autocmd BufNewFile,BufRead notepad*.txt setlocal tw=72 hls
 autocmd BufNewFile,BufRead *.lhs set fo=tcqro
 autocmd BufNewFile,BufRead *.rb set ft=ruby
 autocmd BufNewFile,BufRead *.swift  set ts=4 sw=2
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
 
 " Use gmake
 " autocmd BufNewFile,BufRead Makefile*  set noet
@@ -209,9 +217,7 @@ func! RunBashAppend()
   normal j
   silent! put! =res
 endfunc
-nnoremap <leader>b :call RunBashAppend()<CR>
+nnoremap <leader>r :call RunBashAppend()<CR>
 
 " prevent mistyped :w;
 :cabbr w; w
-
-map <Leader>p :set paste<CR>o<esc>"*]p:set nopaste<cr>
