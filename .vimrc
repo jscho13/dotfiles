@@ -206,6 +206,12 @@ autocmd BufNewFile,BufRead *.rb set ft=ruby
 autocmd BufNewFile,BufRead *.swift  set ts=4 sw=2
 autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
 
+" Have Vim jump to the last position when reopening a file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+    \| exe "normal g'\"" | endif
+endif
+
 " Use gmake
 " autocmd BufNewFile,BufRead Makefile*  set noet
 
