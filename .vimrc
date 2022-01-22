@@ -31,7 +31,7 @@ let g:tsuquyomi_disable_quickfix = 1
 let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
 nmap ]t :TsuquyomiDefinition<CR>
 nmap ]b :TsuGeterr<CR>
-nmap <Leader>s :Ack! -i -w <cword><CR>
+nmap <Leader>s :Ack! --ignore-dir={dist,node_modules,bin,tsBin} -i -w <cword><CR>
 
 " FZF Settings
 let g:fzf_layout = { 'down':  '40%'}
@@ -46,8 +46,10 @@ let g:ackprg = 'ag --vimgrep'
 let NERDTreeShowHidden=1
 set laststatus=2
 let g:sneak#s_next = 1
+let g:bufExplorerShowRelativePath=1
 
 " Vim specific settings
+set scrolloff=0
 nnoremap ; :
 set belloff=all
 set nu
@@ -60,6 +62,8 @@ set nopaste
 set clipboard=unnamed
 " color desert
 colorscheme dracula
+" remap p to remember paste
+xnoremap p pgvy
 
 " draws a line of #
 nmap ,# 72i#<ESC>
