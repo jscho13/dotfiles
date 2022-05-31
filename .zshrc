@@ -2,6 +2,10 @@
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$PATH:/usr/local/Cellar/node/12.12.0/bin
 
+# So TMUX has color
+export TERM=xterm-256color
+[ -n "$TMUX"  ] && export TERM=screen-256color
+
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/bcjoseph/.oh-my-zsh"
 

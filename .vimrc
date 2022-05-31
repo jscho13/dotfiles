@@ -4,6 +4,9 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+" merge conflict tool
+" https://www.reddit.com/r/vim/comments/leo0ji/is_there_any_better_merge_conflict_resolution/
+
 call plug#begin()
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'dracula/vim', { 'as': 'dracula' }
@@ -59,6 +62,7 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 set nopaste
+set autoindent
 set clipboard=unnamed
 " color desert
 colorscheme dracula
