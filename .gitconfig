@@ -6,6 +6,7 @@
 	editor = atom
 	editor = atom --wait
 	editor = vim
+  pager = less -FRX
 [push]
 	default = simple
 [alias] 
